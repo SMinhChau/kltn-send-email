@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  web:
+    container_name: send-mail
+    build: .
+    ports:
+      - "5005:5005"
+    volumes:
+      - .:/app
+
+  worker:
+    build:
+      context: .
+    command: celery -A worker worker -Q send_mail -l DEBUG -c 4
+    volumes:
+      - .:/app
+
